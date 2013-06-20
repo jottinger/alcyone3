@@ -40,6 +40,10 @@ void MIDI::noteOn(unsigned int _note, unsigned int _channel, unsigned int _veloc
     send(0x90 | (_channel & 15));
     send(_note & 127);
     send(_velocity & 127);
+    if(verbose) {
+        std::cout << "MIDI NOTE ON : " << (_channel & 15) << " "
+            << (_note & 127) << " " << (_velocity & 127) << std::endl;
+    }
 }
 
 /**
@@ -49,6 +53,10 @@ void MIDI::noteOff(unsigned int _note, unsigned int _channel, unsigned int _velo
     send(0x80 | (_channel & 15));
     send(_note & 127);
     send(_velocity & 127);
+    if(verbose) {
+        std::cout << "MIDI NOTE OFF: " << (_channel & 15) << " "
+            << (_note & 127) << " " << (_velocity & 127) << std::endl;
+    }
 }
 
 /** 

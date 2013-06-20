@@ -5,6 +5,8 @@
 
 namespace options= boost::program_options;
 
+int verbose=0;
+
 int main(int argc, char **argv)
 {
     options::options_description desc("Allowed Options");
@@ -33,6 +35,7 @@ int main(int argc, char **argv)
 
     Alcyone alcyone;
     MIDI midi;
+    verbose=verbosity; // need to fix this
     alcyone.setVerbosity(verbosity);
     alcyone.setHostPort(hostPort);
     alcyone.setMidi(&midi);
