@@ -65,6 +65,7 @@ onion_connection_status AlcyoneService::pedal(Onion::Request &req, Onion::Respon
     {
         const char *messageString=req.query()["message"].c_str();
         // needs safer strlen!
+        std::cout << "message: "<<messageString << std::endl;
         if(strlen(messageString)<6)
         {
             int message=atoi(messageString);
