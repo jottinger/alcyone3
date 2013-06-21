@@ -34,7 +34,6 @@ SerialDevice::SerialDevice(std::string _device, int _baudRate):fd(0),baudRate(_b
                   << strerror(errno) << std::endl;
         exit(-1);
     }
-    std::cout << "Serial file descriptor: " << fd << std::endl;
 }
 
 void SerialDevice::send(unsigned char value) {

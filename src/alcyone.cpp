@@ -12,16 +12,16 @@ Alcyone::Alcyone()
 int flareScores[][4][2]=
 {
     {
-        {36, 100},
-        {48, 100},
-        {60, 100},
-        {72, 100},
+        {36, 150},
+        {48, 150},
+        {60, 150},
+        {64, 150},
     },
     {
-        {72, 100},
-        {60, 100},
-        {48, 100},
-        {36, 100},
+        {72, 150},
+        {60, 150},
+        {48, 150},
+        {52, 150},
     },
 };
 
@@ -36,10 +36,14 @@ void Alcyone::playFlare()
     srand (time(NULL));
     int score=rand() % (sizeof(flareScores)/sizeof(flareScores[0]));
     int notes=sizeof(flareScores[score])/sizeof(flareScores[score][0]);
+    midi->reset();
+    delay(100);
     for(int i=0; i<notes; i++)
     {
         midi->noteOn(flareScores[score][i][0], 0, 65);
-        delay(flareScores[score][i][1]);
-        midi->noteOff(flareScores[score][i][1], 0, 0);
+        delay(std::max(flareScores[score][i][1],200));
+        midi->noteOff(flareScores[score][i][0], 0, 0);
     }
+    delay(10);
+    midi->reset();
 }

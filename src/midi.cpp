@@ -17,26 +17,18 @@
     along with Alcyone.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "midi.h"
 #include <iostream>
-#include "log.h"
+//#include "log.h"
+#include "midi.h"
 
 extern int verbose;
 
-void MIDI::change(int* var, int minVal, int maxVal, unsigned char x)
+void MIDI::change(int* var, int minVal, int maxVal, unsigned int x)
 {
     int v=getVector(x);
 
-    if(verbose) {
-        std::cout << std::endl << "old value " << *var << " min " << minVal << " max " << maxVal
-                  << " vector " << v;
-
-    }
     *var+=v;
     *var=std::max(minVal, std::min(*var, maxVal));
-    if(verbose) {
-        std::cout << " new value " << *var << std::endl;
-    }
 }
 
 /**
@@ -44,27 +36,19 @@ void MIDI::change(int* var, int minVal, int maxVal, unsigned char x)
  If you want the offset note, use MIDI::getNote(), whose 
  purpose it is to calculate this value.
  */
-void MIDI::noteOn(unsigned int _channel, unsigned int _note) {
-    send(0x90 | _channel);
-    send(_note);
-    send(velocity & 127);
-    if(verbose) {
-        std::cout << "Note on: note " << _note
-                  << ", velocity " << (velocity & 127) << std::endl;
-    }
+void MIDI::noteOn(unsigned int _note, unsigned int _channel, unsigned int _velocity) {
+    send(0x90 | (_channel & 15));
+    send(_note & 127);
+    send(_velocity & 127);
 }
 
 /**
  This sends the ACTUAL NOTE as a note-off. NOT calculated.
  */
-void MIDI::noteOff(unsigned int _channel, unsigned int _note) {
-    send(0x80 | _channel);
-    send(_note);
-    send(0);
-    if(verbose) {
-        std::cout << "Note off: note " << _note
-                  << ", velocity " << (velocity & 127) << std::endl;
-    }
+void MIDI::noteOff(unsigned int _note, unsigned int _channel, unsigned int _velocity) {
+    send(0x80 | (_channel & 15));
+    send(_note & 127);
+    send(_velocity & 127);
 }
 
 /** 
@@ -83,3 +67,4 @@ void MIDI::reset() {
     send(123); // all notes off
     send(0x00);
 }
+

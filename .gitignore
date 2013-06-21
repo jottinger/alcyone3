@@ -31,3 +31,7 @@ Makefile
 
 # configuration file (built by CMake)
 config.h
+
+# files used in build
+arch.c
+is_symbol_defined.c

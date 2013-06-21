@@ -57,7 +57,7 @@ protected:
     The vector is calculated via getVector(), so the actual
     message is acceptable.
     */
-    void change(int* var, int minVal, int maxVal, unsigned char x);
+    void change(int* var, int minVal, int maxVal, unsigned int x);
 public:
     /**
     This constructs a serial device conforming to the MIDI spec

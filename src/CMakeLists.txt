@@ -1,6 +1,8 @@
 # we include this directory for config.h
-include_directories(${alcyone_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR})
 
-add_executable(alcyone main.cpp alcyone.cpp)
+include_directories(${alcyone_SOURCE_DIR}/src/include)
+
+add_executable(alcyone main.cpp alcyone.cpp midi.cpp)
 
 target_link_libraries(alcyone logutil hardware wiringPi boost_thread-mt boost_program_options)
