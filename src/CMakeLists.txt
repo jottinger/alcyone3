@@ -2,6 +2,7 @@
 include_directories(${PROJECT_SOURCE_DIR})
 
 include_directories(${alcyone_SOURCE_DIR}/src/include)
+include_directories(${hardware_SOURCE_DIR}/src/include)
 
 add_executable(alcyone main.cpp alcyone.cpp midi.cpp pedal.cpp
 	digitalinput.cpp webservice.cpp)
