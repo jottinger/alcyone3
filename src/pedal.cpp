@@ -4,7 +4,7 @@ void MIDINote::down(MIDI* midi) {
     if(previousNote!=0) {
         up(midi);
     }
-    previousChannel=midi->getChannel()
+    previousChannel=midi->getChannel();
     previousNote=midi->getNote(offset);
     midi->noteOn(previousNote, previousChannel, midi->getVelocity());
 }

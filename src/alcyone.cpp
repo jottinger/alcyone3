@@ -2,11 +2,11 @@
 #include "alcyone.h"
 // for time delay methods
 #include "wiringPi.h"
+//#include <boost/bind.hpp>
 #include <iostream>
 #include <cstdlib>
-#include <boost/thread.hpp>
 
-Alcyone::Alcyone()
+Alcyone::Alcyone():continuePlaying(true)
 {
     inputs=new DigitalInput();
     for(int i=0;i<13;i++) {
@@ -53,36 +53,12 @@ void Alcyone::playFlare()
     midi->reset();
 }
 
-DigitalInput::DigitalInput()
-{
-    for(int i=0; i<2; i++)
-    {
-        MCP23008 mcp(i);
-        mcp.modeAll(MODE_INPUT);
-        mcps.push_back(mcp);
-    }
-    MCP23008 util(2);
-    util.pinMode(0, MODE_OUTPUT);
-    util.pinMode(1, MODE_OUTPUT);
-    util.pinMode(2, MODE_OUTPUT);
-    util.pinMode(3, MODE_INPUT);
-    mcps.push_back(util);
-    // mcps now contains three MCP23008 entries:
-    // two are fully input, one has three output pins
-
-    for(int i=0; i<13; i++)
-    {
-        presentState[i]=0;
-        previousState[i]=0;
-    }
-}
-
 void Alcyone::start() {
-    inputThread=new boost::thread(inputs->readCycle());
-    alcyoneThread=new boost::thread(&playCycle);
+    inputThread=new boost::thread(&DigitalInput::readCycle, inputs);
+    alcyoneThread=new boost::thread(&Alcyone::playCycle, this);
 }
 
-Alcyone::playCycle()
+void Alcyone::playCycle()
 {
     while(continuePlaying)
     {
@@ -93,41 +69,14 @@ Alcyone::playCycle()
                 int state=inputs->pinState(i);
                 if(state)
                 {
-                    pedals[i].down();
+                    pedals[i]->down(midi);
                 }
                 else
                 {
-                    pedals[i].up();
+                    pedals[i]->up(midi);
                 }
             }
         }
     }
 }
 
-void DigitalInput::readCycle()
-{
-    int data[2];
-    int datum;
-    int state;
-    while(continueReads)
-    {
-        // this is where we read the digital inputs and feed the debouncers
-        data[0]=mcps[0].read();
-        data[1]=mcps[1].read();
-        for(int pin=0; pin<13; pin++)
-        {
-            datum=data[pin/8];
-            presentState[pin]=debouncer[pin].debounce(decode(datum, pin%8));
-        }
-    }
-}
-/** We compare the current read value to the previous value. */
-boolean DigitalInput::pinChanged(int pin)
-{
-    return previousState(pin)!=presentState[pin];
-}
-/** This returns the current pin state, and sets the previous value to this state. */
-int DigitalInput::pinState(int pin)
-{
-    return previousState[pin]=presentState[pin];
-}
