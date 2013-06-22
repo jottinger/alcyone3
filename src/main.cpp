@@ -1,5 +1,6 @@
 #include "config.h"
 #include "alcyone.h"
+#include <boost/thread.hpp>
 #include <boost/program_options.hpp>
 
 namespace options= boost::program_options;
@@ -39,6 +40,7 @@ int main(int argc, char **argv)
     if(playFlare) {
         alcyone.playFlare();
     }
-
+    boost::thread alcyoneMain(&Alcyone::start, &alcyone);
+    alcyoneMain.join();
     return 0;
 }

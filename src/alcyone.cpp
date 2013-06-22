@@ -56,6 +56,7 @@ void Alcyone::playFlare()
 void Alcyone::start() {
     inputThread=new boost::thread(&DigitalInput::readCycle, inputs);
     alcyoneThread=new boost::thread(&Alcyone::playCycle, this);
+    alcyoneThread->join();
 }
 
 void Alcyone::playCycle()
