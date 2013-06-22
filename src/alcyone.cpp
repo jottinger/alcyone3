@@ -70,11 +70,11 @@ void Alcyone::playCycle()
                 int state=inputs->pinState(i);
                 if(state)
                 {
-                    pedals[i]->down(midi);
+                    pedals[12-i]->down(midi);
                 }
                 else
                 {
-                    pedals[i]->up(midi);
+                    pedals[12-i]->up(midi);
                 }
             }
         }
