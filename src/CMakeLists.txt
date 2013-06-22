@@ -6,4 +6,4 @@ include_directories(${alcyone_SOURCE_DIR}/src/include)
 add_executable(alcyone main.cpp alcyone.cpp midi.cpp pedal.cpp
 	digitalinput.cpp)
 
-target_link_libraries(alcyone mlog hardware wiringPi boost_thread-mt boost_program_options)
+target_link_libraries(alcyone hardware wiringPi boost_thread-mt boost_program_options)

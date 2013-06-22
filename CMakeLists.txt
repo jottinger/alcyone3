@@ -18,9 +18,6 @@ set (max_flare_time 2000)
 include_directories("${src_SOURCE_DIR}/include")
 include_directories("${hardware_SOURCE_DIR}/include")
 
-# mlog is imported as is from https://github.com/zschoche/mlog. It needs to
-# be installed before build.
-
 is_symbol_defined(symdef __x86_64__)
 if(symdef) 
 	message(STATUS "Using wiringPiStub for non-ARMv6 Architecture")
@@ -38,6 +35,5 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "-Wall -O2 -pedantic -std=gnu++11")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
-add_subdirectory(mlog)
 add_subdirectory(hardware)
 add_subdirectory(src)
