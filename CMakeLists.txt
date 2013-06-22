@@ -17,7 +17,10 @@ set (max_flare_time 2000)
 
 include_directories("${src_SOURCE_DIR}/include")
 include_directories("${hardware_SOURCE_DIR}/include")
-include_directories("${logutil_SOURCE_DIR}/include")
+
+# mlog is imported as is from https://github.com/zschoche/mlog, so the
+# include dir is different
+include_directories("${mlog_SOURCE_DIR}/mlog")
 
 is_symbol_defined(symdef __x86_64__)
 if(symdef) 
@@ -36,6 +39,6 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "-Wall -O2 -pedantic")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
-add_subdirectory(logutil)
+add_subdirectory(mlog)
 add_subdirectory(hardware)
 add_subdirectory(src)
