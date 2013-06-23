@@ -46,6 +46,7 @@ public:
     }
     onion_connection_status root(Onion::Request &req, Onion::Response& res);
     onion_connection_status pedal(Onion::Request &req, Onion::Response& res);
+    onion_connection_status nullResponse(Onion::Request &req, Onion::Response& res);
 };
 
 /*

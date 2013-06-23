@@ -68,6 +68,7 @@ void Alcyone::start() {
     Onion::Url root(o);
     root.add("", webService, &AlcyoneService::root);
     root.add("pedal", webService, &AlcyoneService::pedal);
+    root.add("favicon.ico", webService, &AlcyoneService::nullResponse);
 
     o.listen();
     inputThread=new boost::thread(&DigitalInput::readCycle, inputs);

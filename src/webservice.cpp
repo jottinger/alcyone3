@@ -1,7 +1,13 @@
 #include "webservice.h"
 #include <cstdio>
 #include <cstring>
+#include <iomanip>
 #include <iostream>
+
+onion_connection_status AlcyoneService::nullResponse(Onion::Request &req, Onion::Response& res)
+{
+    return OCS_NOT_IMPLEMENTED;
+}
 
 onion_connection_status AlcyoneService::root(Onion::Request &req, Onion::Response& res)
 {
@@ -18,44 +24,21 @@ onion_connection_status AlcyoneService::root(Onion::Request &req, Onion::Respons
             switch(message & 0xf0)
             {
             case MSG_RESET:
-                if(verbose>1)
-                {
-                    std::cout << "(MSG_RESET)" << std::endl;
-                }
                 midi->resetToDefaults();
                 break;
             case MSG_MIDI_RESET:
-                if(verbose>1)
-                {
-                    std::cout << "(MSG_MIDI_RESET)" << std::endl;
-                }
                 midi->reset();
                 break;
             case MSG_REQUEST_STATUS:
-                if(verbose>1)
-                {
-                    std::cout << "(MSG_REQUEST_STATUS)" << std::endl;
-                }
+                /* No-op */
                 break;
             case MSG_MIDI_OCTAVE_CHANGE:
-                if(verbose>1)
-                {
-                    std::cout << "(MSG_MIDI_OCTAVE_CHANGE)" << message << std::endl;
-                }
                 midi->changeOctave(message);
                 break;
             case MSG_MIDI_CHANNEL_CHANGE:
-                if(verbose>1)
-                {
-                    std::cout << "(MSG_MIDI_CHANNEL_CHANGE)" << message << std::endl;
-                }
                 midi->changeChannel(message);
                 break;
             case MSG_MIDI_TRANSPOSITION_CHANGE:
-                if(verbose>1)
-                {
-                    std::cout << "(MSG_MIDI_TRANSPOSITION_CHANGE) " << message << std::endl;
-                }
                 midi->changeTransposition(message);
                 break;
             default:
@@ -85,6 +68,24 @@ onion_connection_status AlcyoneService::pedal(Onion::Request &req, Onion::Respon
         if(strlen(messageString)<6)
         {
             int message=atoi(messageString);
+            if((message&0x0f)<13) {
+                switch(message & 0xf0) {
+                case 0x10:
+                    /* pedal down */
+                    pedals[message&0x0f]->down(midi);
+                    break;
+                case 0x20:
+                    /* pedal up */
+                    pedals[message&0x0f]->down(midi);
+                    break;
+                default:
+                    /* unknown message type, say so */
+                    std::cout << "Unknown message received from controller: "
+                              << std::setbase(1) << message << std::setbase(10)
+                              << std::endl;
+                    break;
+                }
+            }
         }
     }
     char buffer[1024];
