@@ -2,11 +2,13 @@
 #include "alcyone.h"
 // for time delay methods
 #include "wiringPi.h"
-//#include <boost/bind.hpp>
+#include <boost/bind.hpp>
 #include <iostream>
 #include <cstdlib>
+#include <onion/handler.hpp>
+#include <onion/url.hpp>
 
-Alcyone::Alcyone():continuePlaying(true)
+Alcyone::Alcyone():continuePlaying(true),hostPort(8090),verbosity(0)
 {
     inputs=new DigitalInput();
     for(int i=0;i<13;i++) {
@@ -53,7 +55,20 @@ void Alcyone::playFlare()
     midi->reset();
 }
 
+
 void Alcyone::start() {
+    webService=new AlcyoneService(midi, pedals);
+    
+    char buffer[10];
+    sprintf(buffer, "%d", hostPort);
+    
+    Onion::Onion o(O_DETACH_LISTEN);
+    // ugh, why is this a string
+    o.setPort(buffer);
+    Onion::Url root(o);
+    root.add("", webService, &AlcyoneService::root);
+    
+    o.listen();
     inputThread=new boost::thread(&DigitalInput::readCycle, inputs);
     alcyoneThread=new boost::thread(&Alcyone::playCycle, this);
     alcyoneThread->join();

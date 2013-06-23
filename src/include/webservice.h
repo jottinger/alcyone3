@@ -1,5 +1,5 @@
-#ifndef ALCYONESERVER_INCLUDED
-#define ALCYONESERVER_INCLUDED
+#ifndef __WEBSERVICE_H__
+#define __WEBSERVICE_H__ 1
 /*
     Copyright 2012- by Joseph B. Ottinger.
 
@@ -18,12 +18,12 @@
     You should have received a copy of the GNU General Public License
     along with Alcyone.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+#include "pedal.h"
 #include "midi.h"
-#include "web++.hpp"
+#include <onion/onion.hpp>
+#include <onion/response.hpp>
+#include <onion/request.hpp>
 
-const int ALCYONE_SERVER_ERROR=-1;
-extern int ALCYONE_SERVER_PORT;
 
 enum ALCYONE_MESSAGE {
     MSG_MIDI_RESET=0x10,
@@ -34,20 +34,33 @@ enum ALCYONE_MESSAGE {
     MSG_RESET=0xf0
 };
 
-void runServer(MIDI *midi);
-class ServiceHandler {
+class AlcyoneService {
 private:
-    MIDI* midi;
 protected:
-    int convertMessage(const char *message);
-    void handleMessage(const char *message);
-    void handlePinDown(const char *message);
-    void handlePinUp(const char *message);
+    MIDI* midi;
+    Pedal **pedals;
 public:
-    ServiceHandler(MIDI* _midi) {
-    midi=_midi;
+    AlcyoneService(MIDI* _midi, Pedal **_pedals) {
+        midi=_midi;
+        pedals=_pedals;
     }
-    void handleRequest(WPP::Request* req, WPP::Response* res);
+    onion_connection_status root(Onion::Request &req, Onion::Response& res);
+
 };
 
-#endif // ALCYONESERVER_INCLUDED
+/*
+class WebService {
+private:
+protected:
+    MIDI* midi;
+    Pedal **pedals;
+public:
+    WebService(MIDI* _midi, Pedal **_pedals) {
+        midi=_midi;
+        pedals=_pedals;
+    }
+    void handleRoot(void *p, onion_request* req, onion_response* res);
+    void handlePedal(void *p, onion_request* req, onion_response* res);
+};
+*/
+#endif

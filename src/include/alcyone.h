@@ -2,6 +2,7 @@
 #define __ALCYONE_H__ 1
 
 #include <boost/thread.hpp>
+#include "webservice.h"
 #include "digitalinput.h"
 #include "midi.h"
 #include "pedal.h"
@@ -14,6 +15,7 @@ private:
     unsigned int verbosity;
     MIDI *midi;
     DigitalInput *inputs;
+    AlcyoneService *webService;
     Pedal *pedals[13];
     boost::thread *inputThread;
     boost::thread *webserviceThread;
