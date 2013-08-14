@@ -67,10 +67,10 @@ public:
     */
     MIDI(std::string _device=DEFAULT_SERIAL_DEVICE,
          int _baudRate=DEFAULT_BAUD_RATE,
-        int _defaultOctave=3,
-        int _defaultTransposition=0,
-        int _defaultChannel=0,
-        int _defaultVelocity=127):
+         int _defaultOctave=3,
+         int _defaultTransposition=0,
+         int _defaultChannel=0,
+         int _defaultVelocity=127):
         SerialDevice(_device, _baudRate),
         octave(_defaultOctave),
         transposition(_defaultTransposition),
@@ -111,26 +111,34 @@ public:
     /**
     This converts a pedal reference to the adjusted MIDI note.
     */
-    inline unsigned int getNote(unsigned int pedal) {
+    inline unsigned int getNote(unsigned int pedal)
+    {
         return pedal+getOctave()*12+getTransposition();
+    }
+    inline unsigned int getVelocity()
+    {
+        return velocity;
     }
     /**
     This exposes the current octave setting.
     */
-    inline int getOctave() {
+    inline int getOctave()
+    {
         return octave;
     }
     /**
     This exposes the current transposition setting.
     */
-    inline int getTransposition() {
+    inline int getTransposition()
+    {
         return transposition;
     }
     /**
     This exposes the current MIDI channel setting.
     */
 
-    inline int getChannel() {
+    inline int getChannel()
+    {
         return channel;
     }
     void reset();
@@ -138,7 +146,8 @@ public:
     This resets all of the default MIDI settings,
     configured via the constructor.
     */
-    void resetToDefaults() {
+    void resetToDefaults()
+    {
         channel=defaultChannel;
         transposition=defaultTransposition;
         octave=defaultOctave;
