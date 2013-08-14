@@ -1,5 +1,5 @@
 # we include this directory for config.h
-include_directories(${alcyone_SOURCE_DIR})
+include_directories(${alcyone_SOURCE_DIR}/include)
 
 add_executable(alcyone main.cpp alcyone.cpp)
 
