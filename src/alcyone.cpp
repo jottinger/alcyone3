@@ -4,6 +4,7 @@
 #include "wiringPi.h"
 #include <iostream>
 #include <cstdlib>
+#include <boost/thread.hpp>
 
 Alcyone::Alcyone()
 {
@@ -74,6 +75,11 @@ DigitalInput::DigitalInput()
         presentState[i]=0;
         previousState[i]=0;
     }
+}
+
+void Alcyone::start() {
+    inputThread=new boost::thread(inputs->readCycle());
+    alcyoneThread=new boost::thread(&playCycle);
 }
 
 Alcyone::playCycle()

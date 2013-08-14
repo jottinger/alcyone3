@@ -32,9 +32,13 @@ private:
     MIDI *midi;
     DigitalInput *inputs;
     Pedal[13] pedals;
+    boost::thread *inputThread;
+    boost::thread *webserviceThread;
+    boost::thread *alcyoneThread;
 protected:
 public:
     Alcyone();
+    void start();
     void playCycle();
     void stopPlaying() {continuePlaying=false;}
     void setMidi(MIDI *_midi)
