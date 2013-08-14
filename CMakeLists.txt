@@ -18,7 +18,6 @@ set (max_flare_time 2000)
 include_directories("${src_SOURCE_DIR}/include")
 include_directories("${hardware_SOURCE_DIR}/include")
 include_directories("${logutil_SOURCE_DIR}/include")
-message("${logutil_SOURCE_DIR}/include")
 
 is_symbol_defined(symdef __x86_64__)
 if(symdef) 
