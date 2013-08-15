@@ -86,14 +86,14 @@ std::string log_metadata::to_string() const
 		if(use_thread_id) 
 		{
 			if(use_position)  //2012-11-02 15:24:04.345 [file:line_number 24-0x7fff72ca8180]{warning}:
-				snprintf(buffer, sizeof(buffer), "%04i-%02i-%02i %02i:%02i:%02i.%llu [%s:%ud %02i-%s]{%s}: ", 1900 + tm->tm_year, tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, ms, position.filename.c_str(), position.line_number, session_id, boost::lexical_cast<std::string>(thread_id).c_str(), level_to_string(level).c_str()); 
+				snprintf(buffer, sizeof(buffer), "%04i-%02i-%02i %02i:%02i:%02i.%llu [%s:%lu %02i-%s]{%s}: ", 1900 + tm->tm_year, tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, ms, position.filename.c_str(), position.line_number, session_id, boost::lexical_cast<std::string>(thread_id).c_str(), level_to_string(level).c_str()); 
 			else  //2012-11-02 15:24:04.345 [24-0x7fff72ca8180]{warning}:
 				snprintf(buffer, sizeof(buffer), "%04i-%02i-%02i %02i:%02i:%02i.%llu [%02i-%s]{%s}: ", 1900 + tm->tm_year, tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, ms, session_id, boost::lexical_cast<std::string>(thread_id).c_str(), level_to_string(level).c_str()); 
 		}
 		else //2012-11-02 15:24:04.345 [24]{warning}: 
 		{
 			if(use_position)
-				snprintf(buffer, sizeof(buffer), "%04i-%02i-%02i %02i:%02i:%02i.%llu[%s:%ud %02i]{%s}: ", 1900 + tm->tm_year, tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, ms, position.filename.c_str(), position.line_number, session_id, level_to_string(level).c_str());
+				snprintf(buffer, sizeof(buffer), "%04i-%02i-%02i %02i:%02i:%02i.%llu[%s:%lu %02i]{%s}: ", 1900 + tm->tm_year, tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, ms, position.filename.c_str(), position.line_number, session_id, level_to_string(level).c_str());
 			else
 				snprintf(buffer, sizeof(buffer), "%04i-%02i-%02i %02i:%02i:%02i.%llu[%02i]{%s}: ", 1900 + tm->tm_year, tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, ms, session_id, level_to_string(level).c_str());
 		}
@@ -101,13 +101,13 @@ std::string log_metadata::to_string() const
 	else if(use_thread_id)	//[24-0x7fff72ca8180]{warning}: 
 	{
 		if(use_position)
-			snprintf(buffer, sizeof(buffer), "[%s:%ud %02i-%s]{%s}: ", position.filename.c_str(), position.line_number, session_id, boost::lexical_cast<std::string>(thread_id).c_str(), level_to_string(level).c_str()); 
+			snprintf(buffer, sizeof(buffer), "[%s:%lu %02i-%s]{%s}: ", position.filename.c_str(), position.line_number, session_id, boost::lexical_cast<std::string>(thread_id).c_str(), level_to_string(level).c_str()); 
 		else
 			snprintf(buffer, sizeof(buffer), "[%02i-%s]{%s}: ", session_id, boost::lexical_cast<std::string>(thread_id).c_str(), level_to_string(level).c_str()); 
 	}
 	else if(use_position)
 	{
-		snprintf(buffer, sizeof(buffer), "[%s:%ud %02i]{%s}: ", position.filename.c_str(), position.line_number, session_id, level_to_string(level).c_str()); 
+		snprintf(buffer, sizeof(buffer), "[%s:%lu %02i]{%s}: ", position.filename.c_str(), position.line_number, session_id, level_to_string(level).c_str()); 
 	}
 	else //[24]{warning}: 
 	{

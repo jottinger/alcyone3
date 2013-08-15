@@ -79,7 +79,7 @@ public:
 };
 
 
-}; /* namespace mlog */
+} /* namespace mlog */
 
 
 #ifdef MLOGTRACE

@@ -18,9 +18,8 @@ set (max_flare_time 2000)
 include_directories("${src_SOURCE_DIR}/include")
 include_directories("${hardware_SOURCE_DIR}/include")
 
-# mlog is imported as is from https://github.com/zschoche/mlog, so the
-# include dir is different
-include_directories("${mlog_SOURCE_DIR}/mlog")
+# mlog is imported as is from https://github.com/zschoche/mlog. It needs to
+# be installed before build.
 
 is_symbol_defined(symdef __x86_64__)
 if(symdef) 
@@ -36,7 +35,7 @@ configure_file (
   )
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS "-Wall -O2 -pedantic")
+	set(CMAKE_CXX_FLAGS "-Wall -O2 -pedantic -std=gnu++11")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 add_subdirectory(mlog)

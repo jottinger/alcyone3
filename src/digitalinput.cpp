@@ -1,5 +1,5 @@
 #include "digitalinput.h"
-#include "mlog.h"
+#include <mlog/mlog.hpp>
 
 DigitalInput::DigitalInput():continueReads(true)
 {
