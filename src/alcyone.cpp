@@ -58,16 +58,17 @@ void Alcyone::playFlare()
 
 void Alcyone::start() {
     webService=new AlcyoneService(midi, pedals);
-    
+
     char buffer[10];
     sprintf(buffer, "%d", hostPort);
-    
+
     Onion::Onion o(O_DETACH_LISTEN);
     // ugh, why is this a string
     o.setPort(buffer);
     Onion::Url root(o);
     root.add("", webService, &AlcyoneService::root);
-    
+    root.add("pedal", webService, &AlcyoneService::pedal);
+
     o.listen();
     inputThread=new boost::thread(&DigitalInput::readCycle, inputs);
     alcyoneThread=new boost::thread(&Alcyone::playCycle, this);
