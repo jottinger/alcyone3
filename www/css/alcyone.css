@@ -13,3 +13,27 @@
 .ui-grid-b, .ui-grid-a {
 	text-align:center;
 }
+
+.pedals { width:100%;}
+.pedals-row { 
+height: 120; 
+}
+.pedal { 
+	text-align:center; 
+	border-bottom-style: solid;
+	border-right-style: solid;
+	border-left-style: solid;
+	width : 5%;
+}
+.pedal-black { 
+	background-color: black; 
+	color: white; 
+	border-bottom-style: solid; 
+}
+.pedal-blank { 
+	border-bottom-style: none; 
+}
+.pedal-button { 
+	width: 100%; 
+	height: 120px; 
+}

@@ -14,8 +14,6 @@
 </script>
 <script src="script/jquery-ui.js" type="text/javascript">
 </script>
-  <script src="script/jquery.l90r.piano.js">
-</script>
 <script>
    var url="http://"
    	+window.location.hostname
@@ -26,24 +24,32 @@ function sendMessage(message) {
 }
 
 $(function() {
-$('#piano').piano()
-	.bind('pianodown', function display(event, halftone, pressed) { 
-		var val=16+1*pressed;
-		sendMessage(val);
-	} )
-	.bind('pianoup', function(event, halftone, pressed) {
-		var val=32+1*pressed;
-		sendMessage(val);
-		//$('#note').text(pressed.join(', '))
-	});
-$('#sustain').click(function() {$('#piano').piano('sustain',$(this).is(':checked'));});});
+}
 </script>
 </head>
 
 <body>
-<p>Current note is: <span id="note"></span></p>
-<div id="piano"></div>
-<div style="display:none"><p>Sustain pedal: <input id="sustain" type="checkbox"
-/></p></div>
+<table class="pedals-table" height="100%">
+<tr class="pedals-row">
+<td class="pedal-blank">&nbsp;</td>
+<td class="pedal-black" colspan=2><button>C#</button></td>
+<td class="pedal-black" colspan=2><button>D#</button></td>
+<td class="pedal-blank" colspan=2>&nbsp;</td>
+<td class="pedal-black" colspan=2><button>F#</button></td>
+<td class="pedal-black" colspan=2><button>G#</button></td>
+<td class="pedal-black" colspan=2><button>A#</button></td>
+<td class="pedal-blank" colspan="3">&nbsp;</td>
+</tr>
+<tr class="pedals-row">
+<td class="pedal" colspan=2><button>C</button></td>
+<td class="pedal" colspan=2><button>D</button></td>
+<td class="pedal" colspan=2><button>E</button></td>
+<td class="pedal" colspan=2><button>F</button></td>
+<td class="pedal" colspan=2><button>G</button></td>
+<td class="pedal" colspan=2><button>A</button></td>
+<td class="pedal" colspan=2><button>B</button></td>
+<td class="pedal" colspan=2><button>C</button></td>
+</tr>
+</table>
 </body>
 </html>
