@@ -141,19 +141,12 @@ public:
     {
         return channel;
     }
-    void reset();
+    virtual void reset();
     /**
     This resets all of the default MIDI settings,
     configured via the constructor.
     */
-    void resetToDefaults()
-    {
-        channel=defaultChannel;
-        transposition=defaultTransposition;
-        octave=defaultOctave;
-        velocity=defaultVelocity;
-        reset();
-    }
+    virtual void resetToDefaults();
 };
 
 #endif // __MIDI_H_INCLUDED__

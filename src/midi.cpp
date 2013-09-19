@@ -41,7 +41,7 @@ void MIDI::noteOn(unsigned int _note, unsigned int _channel, unsigned int _veloc
     send(_note & 127);
     send(_velocity & 127);
     if(verbose) {
-        std::cout << "MIDI NOTE ON : " << (_channel & 15) << " "
+        std::cout << "MIDI   NOTE ON : " << (_channel & 15) << " "
             << (_note & 127) << " " << (_velocity & 127) << std::endl;
     }
 }
@@ -52,9 +52,9 @@ void MIDI::noteOn(unsigned int _note, unsigned int _channel, unsigned int _veloc
 void MIDI::noteOff(unsigned int _note, unsigned int _channel, unsigned int _velocity) {
     send(0x80 | (_channel & 15));
     send(_note & 127);
-    send(_velocity & 127);
+    send(0); // note off events get 0 velocity
     if(verbose) {
-        std::cout << "MIDI NOTE OFF: " << (_channel & 15) << " "
+        std::cout << "MIDI   NOTE OFF: " << (_channel & 15) << " "
             << (_note & 127) << " " << (_velocity & 127) << std::endl;
     }
 }
@@ -74,5 +74,28 @@ void MIDI::reset() {
     send(0xb0 | channel); // system reset for channel
     send(123); // all notes off
     send(0x00);
+
+    for(int c=0; c<16; c++) {
+        for(int i=0; i<128; i++) {
+            noteOff(i, c, 0);
+        }
+    }
+    if(verbose) {
+        std::cout << "MIDI   RESET" << std::endl;
+    }
 }
+
+void MIDI::resetToDefaults()
+    {
+        channel=defaultChannel;
+        transposition=defaultTransposition;
+        octave=defaultOctave;
+        velocity=defaultVelocity;
+    if(verbose) {
+        std::cout << "SYSTEM RESET" << std::endl;
+    }
+
+        reset();
+    }
+
 
